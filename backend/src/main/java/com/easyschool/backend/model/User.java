@@ -2,7 +2,10 @@ package com.easyschool.backend.model;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,17 +17,20 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-// @Table(name = "school.user")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
-    
-    private String name;
-    private String surname;
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String username;
     private String birthdate;
-    private String role;
-    
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     @OneToMany(mappedBy = "user")
     private List<Credential> credentials;
 
@@ -34,7 +40,7 @@ public class User {
     @ManyToMany
     private List<Subject> subject;
 
-    @ManyToMany 
+    @ManyToMany
     private List<Lesson> lesson;
 
     @OneToMany(mappedBy = "user")
