@@ -6,12 +6,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 // @Table(name = "school.file")
 public class Exam {
     @Id
@@ -23,12 +25,11 @@ public class Exam {
     private String date;
     private String time;
     private String duration;
-    private String type; // written, oral, practical
-    private int score; 
+    private String type; 
 
-    @ManyToMany(mappedBy = "exams")
-    private List<User> users;
+    @OneToMany(mappedBy = "exam")
+    private List<Score> score;
 
-//     @ManytoOne  (mappedBy = "exam")
-//     private List<Class> classes; 
+    @ManyToOne
+    private Class classes; 
 }

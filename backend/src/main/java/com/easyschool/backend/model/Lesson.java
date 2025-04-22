@@ -8,12 +8,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-// @Table(name = "school.file")
+@NoArgsConstructor
+// @Table(name = "school.lesson")
 public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +25,12 @@ public class Lesson {
     private String date;
     private String time;
 
-    @OneToMany(mappedBy = "lesson")
-    private List<Subject> subject;
+    @ManyToOne
+    private Subject subject;
 
     @ManyToOne
     private Class classes;
     
     @ManyToMany(mappedBy = "lesson")
-    private List<User> users;
+    private List<User> user;
 }

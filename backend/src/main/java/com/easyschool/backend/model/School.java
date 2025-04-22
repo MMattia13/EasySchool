@@ -8,9 +8,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 // @Table(name = "school.subject")
 public class School {
     @Id
@@ -22,5 +24,6 @@ public class School {
     private String type; 
 
     @OneToMany(mappedBy = "school")
-    private List<Program> programs;
+    private List<Program> program;
+    
 }

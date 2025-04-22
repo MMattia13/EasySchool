@@ -5,11 +5,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 // @Table(name = "school.file")
 public class Score {
     @Id
@@ -23,6 +24,6 @@ public class Score {
     @ManyToOne
     private Exam exam;
 
-    @OneToMany(mappedBy = "score")
+    @ManyToOne
     private User user;
 }

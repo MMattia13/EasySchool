@@ -10,9 +10,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 // @Table(name = "school.file")
 public class Subject {
     @Id
@@ -23,8 +25,8 @@ public class Subject {
     private String description;
 
     @ManyToMany
-    private List<User> users;
+    private List<User> user;
 
     @OneToMany(mappedBy = "subject")
-    private List<Lesson> lessons;
+    private List<Lesson> lesson;
 }

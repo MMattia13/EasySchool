@@ -9,9 +9,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
+
 // @Table(name = "school.file")
 public class Class {
     @Id
@@ -21,12 +24,12 @@ public class Class {
     private String name;
     private String description;
     
-    @OneToMany(mappedBy = "class")
-    private List<Lesson> lessons;
+    @OneToMany
+    private List<Lesson> lesson;
 
-    @OneToMany(mappedBy = "class")
-    private List<Exam> exams;
+    @OneToMany
+    private List<Exam> exam;
 
     @ManyToOne
-    private  Program program;
+    private Program program;
 }

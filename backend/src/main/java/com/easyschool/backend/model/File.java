@@ -1,11 +1,10 @@
 package com.easyschool.backend.model;
 
-import org.hibernate.annotations.Table;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,5 +24,7 @@ public class File {
     private String description;
     private String dateCreated;
     private String dateModified;
-
+    
+    @ManyToOne
+    private User user;
 }
