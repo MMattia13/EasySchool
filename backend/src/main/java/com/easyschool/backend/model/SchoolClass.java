@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 
-// @Table(name = "school.file")
-public class Class {
+// @Table(name = "school.school_class")
+public class SchoolClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
