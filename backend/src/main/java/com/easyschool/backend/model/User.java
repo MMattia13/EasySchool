@@ -8,7 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "school_user") 
+@Table(name = "school_user")
 public class User {
 
     @Id
@@ -28,12 +30,11 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String surname;
-    
+
     private String birthdate;
 
-
-    @OneToMany(mappedBy = "user")
-    private List<Credential> credentials;
+    @OneToOne(mappedBy = "user")
+    private Credential credentials;
 
     @OneToMany
     private List<Score> score;
@@ -46,4 +47,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<File> file;
+
+    @ManyToOne
+    private Role role;
 }
