@@ -1,9 +1,5 @@
 package com.easyschool.backend.payload.request;
 
-import java.util.Set;
-
-import com.easyschool.backend.model.Role;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -26,7 +22,7 @@ public class SignupRequest {
   @Email
   private String email;
 
-  private Set<Role> role;
+  private String role_code;
 
   @NotBlank
   @Size(min = 6, max = 40)
