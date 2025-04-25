@@ -1,36 +1,24 @@
 package com.easyschool.backend.model;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
 @Entity
-@NoArgsConstructor
-
-// @Table(name = "school.school_class")
+@Data
+@Table(name = "school_class") 
 public class SchoolClass {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(nullable = false)
-    private String name;
-    private String description;
-    
-    @OneToMany
-    private List<Lesson> lesson;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @OneToMany
-    private List<Exam> exam;
+  @Column(nullable = false)
+  private String name;
 
-    @ManyToOne
-    private Program program;
+  @Column
+  private String description;
 }

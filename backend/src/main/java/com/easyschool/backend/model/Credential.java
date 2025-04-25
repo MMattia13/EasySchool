@@ -1,5 +1,6 @@
 package com.easyschool.backend.model;
 
+import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +15,7 @@ import lombok.Data;
 @Entity
 @Data
 @AllArgsConstructor
-@Table(name = "school.credentials")
+@Table(name = "school_credential")
 public class Credential {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

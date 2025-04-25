@@ -1,5 +1,6 @@
 package com.easyschool.backend.model;
 
+import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-// @Table(name = "school.file")
+@Table(name = "school_score")
 public class Score {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
