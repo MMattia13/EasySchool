@@ -52,9 +52,9 @@ public class UserService {
         }
 
         User existingUser = existingUserOptional.get();
-        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setName(updatedUser.getName());
+        existingUser.setSurname(updatedUser.getSurname());
         existingUser.setBirthdate(updatedUser.getBirthdate());
-        existingUser.setRole(updatedUser.getRole());
 
         return userRepository.save(existingUser);
     }

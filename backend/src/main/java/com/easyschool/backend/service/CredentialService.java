@@ -50,10 +50,10 @@ public class CredentialService {
         if (!existingCredentialOptional.isPresent()) {
             throw new RuntimeException("Credential not found with id: " + id);
         }
-        
-        if(updatedCredential.getEmail() == existingCredentialOptional.get().getEmail()) {
-            existingCredentialOptional.get().setEmail(updatedCredential.getEmail()); 
-        } 
+
+        if (!updatedCredential.getEmail().equals(existingCredentialOptional.get().getEmail())) {
+            existingCredentialOptional.get().setEmail(updatedCredential.getEmail());
+        }
 
         return credentialRepository.save(existingCredentialOptional.get());
     }
