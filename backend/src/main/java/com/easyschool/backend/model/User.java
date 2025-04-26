@@ -14,9 +14,11 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Data
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "school_user")
 public class User {
@@ -41,6 +43,9 @@ public class User {
 
     @ManyToMany
     private List<Subject> subject;
+
+    @ManyToMany
+    private List<Exam> exams;
 
     @ManyToMany
     private List<Lesson> lesson;

@@ -17,6 +17,9 @@ public class SignupRequest {
   @Size(min = 3, max = 20)
   private String surname;
 
+  @Size(min = 6, max = 6)
+  private String birthdate;
+
   @NotBlank
   @Size(max = 50)
   @Email

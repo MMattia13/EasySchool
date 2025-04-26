@@ -16,4 +16,5 @@ public class RoleService {
         return roleRepository.findByCode(code).orElseThrow(() -> new RuntimeException("Role not found"));
     }
 
+
 }

@@ -57,4 +57,8 @@ public class CredentialService {
 
         return credentialRepository.save(existingCredentialOptional.get());
     }
+
+    public boolean existByEmail(String email) {
+        return credentialRepository.existsByEmail(email);
+    }
 }

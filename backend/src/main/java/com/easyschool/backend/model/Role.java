@@ -13,6 +13,7 @@ import lombok.Data;
 
 @Entity
 @Data
+
 @Table(name = "school_role")
 public class Role {
 

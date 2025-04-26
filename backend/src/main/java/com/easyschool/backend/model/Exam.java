@@ -2,19 +2,23 @@ package com.easyschool.backend.model;
 
 import java.util.List;
 
-import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "school_exam")
 public class Exam {
@@ -33,6 +37,9 @@ public class Exam {
     @OneToMany(mappedBy = "exam")
     private List<Score> score;
 
+    @ManyToMany
+    private List<User> users;
+    
     @ManyToOne
-    private Class classes; 
+    private SchoolClass schoolclasses; 
 }

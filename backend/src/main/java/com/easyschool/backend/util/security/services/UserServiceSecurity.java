@@ -11,12 +11,12 @@ import com.easyschool.backend.model.User;
 import com.easyschool.backend.repository.UserRepository;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserServiceSecurity implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserServiceSecurity(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

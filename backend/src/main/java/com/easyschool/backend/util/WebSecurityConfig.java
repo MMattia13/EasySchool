@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,14 +17,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.easyschool.backend.util.security.jwt.AuthEntryPointJwt;
 import com.easyschool.backend.util.security.jwt.AuthTokenFilter;
-import com.easyschool.backend.util.security.services.UserService;
+import com.easyschool.backend.util.security.services.UserServiceSecurity;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
     @Autowired
-    UserService userService;
+    UserServiceSecurity userService;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
@@ -51,26 +52,31 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @SuppressWarnings("removal")
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .headers().frameOptions().disable().and()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeHttpRequests()
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/test/**").permitAll()
-                .requestMatchers(
-                        "/v3/api-docs/**",
-                        "/swagger-ui/**",
-                        "/swagger-ui.html",
-                        "/webjars/**"
-                ).permitAll()
-                .anyRequest().authenticated();
-        http.authenticationProvider(authenticationProvider());
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .cors(Customizer.withDefaults())
+                .csrf((csrf) -> csrf.disable())
+                .headers((headers) -> {
+                    headers.frameOptions((frameOptions) -> frameOptions.disable());
+                })
+                .authorizeHttpRequests((httpRequest) -> {
+                    httpRequest
+                            .requestMatchers(
+                                    "/login",
+                                    "/h2-console/",
+                                    "/swagger-ui.html",
+                                    "/swagger-ui/",
+                                    "/v3/api-docs/",
+                                    "/webjars/")
+                            .permitAll()
+                            .anyRequest().authenticated();
+                })
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement((sessionManagement) -> {
+                    sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                })
+                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        return http.build(); }
 }
