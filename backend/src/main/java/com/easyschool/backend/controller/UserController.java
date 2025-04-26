@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,7 +15,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,9 +58,6 @@ public class UserController {
     @Autowired
     JwtUtils jwtUtils;
 
-    /**
-     * Gestisce il login degli utenti.
-     */
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -75,14 +76,11 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(jwt));
     }
 
-    /**
-     * Gestisce la registrazione di nuovi utenti.
-     */
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 
 
-        // Verifica se l'email è già registrata
+        
         if (credentialService.existByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
@@ -106,4 +104,44 @@ public class UserController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
-}
+
+    @PreAuthorize("hasAuthority('ADMIN')or hasAuthority('MODERATOR')")
+     @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')or hasAuthority('MODERATOR')")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        if (user == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found!"));
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody User updatedUser) {
+        User user = userService.updateUser(id, updatedUser);
+        if (user == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found!"));
+        }
+        return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+          
+        try {
+            userService.deleteUserById(id);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found!"));
+        }
+        return ResponseEntity.ok(new MessageResponse("User deleted successfully!"));
+    }
+
+}   
